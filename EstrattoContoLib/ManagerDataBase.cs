@@ -7,6 +7,7 @@ using System.Data.SqlServerCe;
 using System.Data;
 using System.Xml.Serialization;
 using System.Xml;
+using System.IO;
 
 
 namespace EstrattoContoLib
@@ -14,7 +15,6 @@ namespace EstrattoContoLib
 
     public static class ManagerDataBase
     {
-
 
         /// <summary>
         /// 1. Crea sul database il cliente con i dati generici passati in Cliente
@@ -25,13 +25,18 @@ namespace EstrattoContoLib
         /// <param name="c"></param>
         public static int AggiungiCliente(Cliente c)
         {
-            string select = "INSERT INTO Clienti ( Tester , Premise ) " +
-                            "               VALUES ( @tester , @premise ) " +
+            int ret = -1;
+
+            string select = "INSERT INTO CLIENTI ( NOME, COGNOME, TIPO_CLIENTE, ALTRI_DATI ) " +
+                            "               VALUES ( @nome , @cognome, @tipo, @altro ) " +
                             "SET @newId = SCOPE_IDENTITY(); ";
+
             Connessione conn = new Connessione();
+            
             try
             {
                 bool ok = conn.ApriConnessione();
+
                 if (!ok)
                     return -1;
 
@@ -40,31 +45,39 @@ namespace EstrattoContoLib
                 cmd.CommandText = select;
                 cmd.Connection = conn.connessione;
 
+                //serializzazione dati extra
                 XmlSerializer xml = new XmlSerializer(typeof (DatiCliente));
-                Byte[] stream = new System.IO.MemoryStream().ToArray();
-                //xml.Serialize((stream, c.DatiGenarali);
-                 
+                MemoryStream memo = new MemoryStream();
 
-                //cmd.Parameters.AddWithValue("@tester", newTest.tester);
-                //cmd.Parameters.AddWithValue("@premise", newTest.premise);
+                xml.Serialize(memo, c.DatiGenarali);
+
+                string extra_info = UTF8ByteArrayToString(memo.ToArray());
+
+                cmd.Parameters.AddWithValue("@nome", c.Nome);
+                cmd.Parameters.AddWithValue("@cognome", c.Cognome);
+                cmd.Parameters.AddWithValue("@tipo", (int)c.Tipo);
+                cmd.Parameters.AddWithValue("@altro", extra_info);
+
                 cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.ExecuteScalar();
+
                 int nuovoID = (int)cmd.Parameters["@newId"].Value;
 
-
                 c.ID = nuovoID;
+
+                ret = 0;
             }
             catch (Exception e)
             {
-
+                ret = -1;
             }
             finally
             {
                 conn.ChiudiConnessione();
             }
 
-            return 0;
+            return ret;
         }
 
         /// <summary>
@@ -114,5 +127,49 @@ namespace EstrattoContoLib
         }
 
 
+
+        /// <summary>
+        ///  Converte una sequenza di byte in stringa con codifica UTF8
+        /// </summary>
+        /// <param name="characters"></param>
+        /// <returns></returns>
+        public static String UTF8ByteArrayToString(Byte[] characters)
+        {
+
+            UTF8Encoding encoding = new UTF8Encoding();
+            String constructedString = encoding.GetString(characters);
+            return (constructedString);
+        }
+     
+   
+        /*
+         *  DESERIALIZZAZIONE
+         * byte[] byteArray = Encoding.UTF8.GetBytes(dr["ImpostazioniDietaDaElaborare"].ToString());
+                        MemoryStream stream = new MemoryStream(byteArray);
+
+                        XmlSerializer s = new XmlSerializer(typeof(ImpostazioniDietaDaElaborare));
+                        TextReader r = new StreamReader(stream);
+
+                        ImpostazioniDieta = (ImpostazioniDietaDaElaborare)s.Deserialize(r);
+         * 
+         */
+
+
+        /* SERIALIZZAZIONE
+         * XmlSerializer srO = new XmlSerializer(typeof(OpzioniStampa));
+           MemoryStream mO = new MemoryStream();
+
+           IFormatter ftO = new BinaryFormatter();
+           srO.Serialize(mO, OpzStampa);
+
+
+
+           string XmlizedStringO = UTF8ByteArrayToString(mO.ToArray());
+
+
+
+           dr["OpzioniStampa"] = XmlizedStringO;
+         * 
+         */
     }
 }

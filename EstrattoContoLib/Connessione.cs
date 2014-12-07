@@ -10,6 +10,7 @@ namespace EstrattoContoLib
     public class Connessione
     {
         static string STRINGA_CONNESSIONE = "";
+        
         public SqlCeConnection connessione;
 
         public bool ApriConnessione()
