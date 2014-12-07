@@ -23,7 +23,7 @@ namespace EstrattoContoLib
         /// 4. Ritorna 0 se OK, negativo per errore
         /// </summary>
         /// <param name="c"></param>
-        public static int AggiungiCliente(Cliente c)
+        public static int InserimentoCliente(Cliente c)
         {
             int ret = -1;
 
@@ -84,13 +84,13 @@ namespace EstrattoContoLib
         /// NB. Il conto corrente DEVE essere linkato ad una istanza di Cliente esistente (istanze sul database, dunque IDCliente != 0)
         /// 
         /// 1. Crea sul database il conto corrente
-        /// 2. Crea tabelle sul database (Operazioni_IDContoCorrente, EstrattiConto_IDContoCorrente)
+        /// 2. Crea tabelle sul database (Operazioni_IDContoCorrente, )
         /// 3. OTTIENE IL NUOVO ID dal DATABASE!!
         /// 4. ritorna 0 se OK, negativo per errore
-        /// </summary>
+        /// </summary>EstrattiConto_IDContoCorrente
         /// <param name="cc"></param>
         /// <returns></returns>
-        public static int AggiungiContoCorrente(ContoCorrente cc)
+        public static int InserimentoContoCorrente(ContoCorrente cc)
         {
             return 0;
         }
@@ -108,7 +108,7 @@ namespace EstrattoContoLib
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public static int AggiungiOperazione(Operazione o, bool force_update)
+        public static int InserimentoOperazione(Operazione o, bool force_update)
         {
             return 0;
         }
@@ -121,10 +121,17 @@ namespace EstrattoContoLib
         /// </summary>
         /// <param name="ec"></param>
         /// <returns></returns>
-        public static int AggiungiEstrattoConto(EstrattoConto ec)
+        public static int InserimentoEstrattoConto(EstrattoConto ec)
         {
             return 0;
         }
+
+
+
+        private static string TabellaOperazioni = "OPERAZIONI_";
+        private static string TabellaEstrattoConto = "ESTRATTICONTO_";
+
+
 
 
 
