@@ -8,6 +8,8 @@ namespace EstrattoContoLib
 {
     public class Cliente
     {
+	
+		// ho inserito questo commento
         #region campi
 
         private int _id;
