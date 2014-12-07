@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlServerCe;
+using System.Data.SqlClient;
 
 namespace EstrattoContoLib
 {
@@ -11,12 +11,12 @@ namespace EstrattoContoLib
     {
         static string STRINGA_CONNESSIONE = "";
         
-        public SqlCeConnection connessione;
+        public SqlConnection connessione;
 
         public bool ApriConnessione()
         {
             bool ok = true;
-            connessione = new SqlCeConnection();
+            connessione = new SqlConnection();
             try
             {
                 connessione.ConnectionString = STRINGA_CONNESSIONE;

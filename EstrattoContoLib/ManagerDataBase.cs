@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlServerCe;
 using System.Data;
 using System.Xml.Serialization;
 using System.Xml;
@@ -25,59 +24,7 @@ namespace EstrattoContoLib
         /// <param name="c"></param>
         public static int InserimentoCliente(Cliente c)
         {
-            int ret = -1;
-
-            string select = "INSERT INTO CLIENTI ( NOME, COGNOME, TIPO_CLIENTE, ALTRI_DATI ) " +
-                            "               VALUES ( @nome , @cognome, @tipo, @altro ) " +
-                            "SET @newId = SCOPE_IDENTITY(); ";
-
-            Connessione conn = new Connessione();
-            
-            try
-            {
-                bool ok = conn.ApriConnessione();
-
-                if (!ok)
-                    return -1;
-
-                SqlCeCommand cmd = new SqlCeCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = select;
-                cmd.Connection = conn.connessione;
-
-                //serializzazione dati extra
-                XmlSerializer xml = new XmlSerializer(typeof (DatiCliente));
-                MemoryStream memo = new MemoryStream();
-
-                xml.Serialize(memo, c.DatiGenarali);
-
-                string extra_info = UTF8ByteArrayToString(memo.ToArray());
-
-                cmd.Parameters.AddWithValue("@nome", c.Nome);
-                cmd.Parameters.AddWithValue("@cognome", c.Cognome);
-                cmd.Parameters.AddWithValue("@tipo", (int)c.Tipo);
-                cmd.Parameters.AddWithValue("@altro", extra_info);
-
-                cmd.Parameters.Add("@newId", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                cmd.ExecuteScalar();
-
-                int nuovoID = (int)cmd.Parameters["@newId"].Value;
-
-                c.ID = nuovoID;
-
-                ret = 0;
-            }
-            catch (Exception e)
-            {
-                ret = -1;
-            }
-            finally
-            {
-                conn.ChiudiConnessione();
-            }
-
-            return ret;
+            return ManagerCliente.InserimentoCliente(c);
         }
 
         /// <summary>

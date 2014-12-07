@@ -61,7 +61,11 @@
     <Compile Include="DatiCliente.cs" />
     <Compile Include="EnumRepositpory.cs" />
     <Compile Include="EstrattoConto.cs" />
+    <Compile Include="ManagerCliente.cs" />
+    <Compile Include="ManagerContoCorrente.cs" />
     <Compile Include="ManagerDataBase.cs" />
+    <Compile Include="ManagerEstrattoConto.cs" />
+    <Compile Include="ManagerOperazioni.cs" />
     <Compile Include="Operazione.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
