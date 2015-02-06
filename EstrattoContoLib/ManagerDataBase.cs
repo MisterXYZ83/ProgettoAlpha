@@ -34,9 +34,6 @@ namespace EstrattoContoLib
         /// 2. Crea tabelle sul database (Operazioni_IDContoCorrente, )
         /// 3. OTTIENE IL NUOVO ID dal DATABASE!!
         /// 4. ritorna 0 se OK, negativo per errore
-        /// </summary>EstrattiConto_IDContoCorrente
-        /// <param name="cc"></param>
-        /// <returns></returns>
         public static int InserimentoContoCorrente(ContoCorrente cc)
         {
             return 0;
@@ -52,9 +49,6 @@ namespace EstrattoContoLib
         /// 2.b continua con la procedura
         /// 3. Inserisce nella tabella OPERAZIONI e aggiorna il riferimento sulla tabella ESTRATTI_CONTO
         /// 4. Aggiorna IDOperazione e GUID.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
         public static int InserimentoOperazione(Operazione o, bool force_update)
         {
             return 0;
@@ -65,9 +59,6 @@ namespace EstrattoContoLib
         /// 2. Inserisce su database e riempie l'IDEstratto
         /// 3. Lista operazioni VUOTA
         /// 4. ritorna 0 se tutto ok, negativo in caso di errore
-        /// </summary>
-        /// <param name="ec"></param>
-        /// <returns></returns>
         public static int InserimentoEstrattoConto(EstrattoConto ec)
         {
             return 0;

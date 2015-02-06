@@ -24,7 +24,7 @@ namespace EstrattoContoLib
         {
             int ret = -1;
 
-            string select = "INSERT INTO CLIENTI ( NOME, COGNOME, TIPO_CLIENTE, ALTRI_DATI ) " +
+            string insert = "INSERT INTO CLIENTI ( NOME, COGNOME, TIPO_CLIENTE, ALTRI_DATI ) " +
                             "               VALUES ( @nome , @cognome, @tipo, @altro ) " +
                             "SET @newId = SCOPE_IDENTITY(); ";
 
@@ -39,7 +39,7 @@ namespace EstrattoContoLib
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = select;
+                cmd.CommandText = insert;
                 cmd.Connection = conn.connessione;
 
                 //serializzazione dati extra
